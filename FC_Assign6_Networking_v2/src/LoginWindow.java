@@ -6,6 +6,14 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import javax.swing.JButton;
 
 public class LoginWindow {
@@ -14,28 +22,68 @@ public class LoginWindow {
 	private JTextField txtUser;
 	private JTextField txtPassword;
 	private JButton btnSubmit;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginWindow window = new LoginWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String userVal=null;
+	private String passVal=null;
+	
 
 	/**
 	 * Create the application.
 	 */
 	public LoginWindow() {
 		initialize();
+		
+		//button commands from v1
+		btnSubmit.addActionListener(new ActionListener()
+		{
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println("clicked submit btn");
+			userVal=txtUser.getText();
+			passVal=txtPassword.getText();
+			
+							
+			try {						
+				String serverAddress = "127.0.0.1";
+		        int port = 9070;
+		        Socket socket = new Socket(serverAddress, port);
+				
+		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				
+		        //this print is on the socket
+		        out.println("auth:"+userVal+":"+passVal);			        
+		        
+		        System.out.println("sends to server");
+		        
+		        BufferedReader input =
+                        new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		        System.out.println("recieves from server");
+		        String reply=input.readLine();  //returns y or n
+		        System.out.println("read line");
+		        System.out.println(reply);
+		        
+		        if(reply.equals("y")) {
+					//auth=true;
+					System.out.println("is true");
+					//startChat();
+					frame.setVisible(false);
+				}
+		        //clickSubmit=true;
+		        System.out.println("end click");
+		        
+		      //get stuck here
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}					
+			
+		}
+		
+		
+		});
+		
+		
 	}
 
 	/**
@@ -92,4 +140,21 @@ public class LoginWindow {
 		frame.getContentPane().add(btnSubmit, gbc_btnSubmit);
 	}
 
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginWindow window = new LoginWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 }
