@@ -84,7 +84,10 @@ public class LoginWindow {
 		});
 		
 		
-	}
+	} //end LoginWindow
+	
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
