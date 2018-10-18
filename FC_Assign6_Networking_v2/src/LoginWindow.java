@@ -68,6 +68,8 @@ public class LoginWindow {
 					System.out.println("is true");
 					//startChat();
 					frame.setVisible(false);
+					ChatWindow chatwindow = new ChatWindow();
+					
 				}
 		        //clickSubmit=true;
 		        System.out.println("end click");
