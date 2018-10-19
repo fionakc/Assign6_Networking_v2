@@ -26,12 +26,27 @@ public class LoginWindow {
 	private String passVal=null;
 	private JLabel lblLoginmessage;
 	
+	/**
+	 * try putting these up here, in prep for moving other window inside this class
+	 */
+	
+	String serverAddress = "127.0.0.1";
+    int port = 9070;
+    Socket socket; 
+	
+    
+    /**
+     * from chatwindow class
+     */
+    private JFrame frame2;
+	private JTextField txtInputtext;
 
 	/**
 	 * Create the application.
 	 */
 	public LoginWindow() {
-		initialize();
+		initializeLoginWindow();
+		initializeChatWindow();
 		
 		//button commands from v1
 		btnSubmit.addActionListener(new ActionListener()
@@ -46,9 +61,10 @@ public class LoginWindow {
 			
 							
 			try {						
-				String serverAddress = "127.0.0.1";
-		        int port = 9070;
-		        Socket socket = new Socket(serverAddress, port);
+//				String serverAddress = "127.0.0.1";
+//		        int port = 9070;
+//		        Socket socket = new Socket(serverAddress, port);
+				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
 				
 		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				
@@ -70,10 +86,27 @@ public class LoginWindow {
 					System.out.println("is true");
 					//startChat();
 					frame.setVisible(false);
-					ChatWindow chatwindow = new ChatWindow();
+					frame2.setVisible(true);
+					//ChatWindow chatwindow = new ChatWindow();
 					
 				}else {
-					lblLoginmessage.setVisible(true);
+					/**
+					 * this bit is new
+					 */
+					lblLoginmessage.setVisible(true);  
+					
+					
+					/**
+					 * temp dump this in here so can see second window
+					 */
+					
+					lblLoginmessage.setVisible(false);
+					//auth=true;
+					System.out.println("is true");
+					//startChat();
+					frame.setVisible(false);
+					ChatWindow chatwindow = new ChatWindow();
+					
 				}
 		        //clickSubmit=true;
 		        System.out.println("end click");
@@ -98,7 +131,7 @@ public class LoginWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initializeLoginWindow() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 601, 326);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,6 +195,46 @@ public class LoginWindow {
 		lblLoginmessage.setVisible(false);
 	}
 
+	/**
+	 * new code, see if can put both frames in same class
+	 */
+	private void initializeChatWindow() {
+		frame2 = new JFrame();
+		frame2.setBounds(100, 100, 544, 416);
+		frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] {400, 0, 30};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		frame2.getContentPane().setLayout(gridBagLayout);
+		
+		JLabel lblChat = new JLabel("Chat");
+		GridBagConstraints gbc_lblChat = new GridBagConstraints();
+		gbc_lblChat.gridheight = 11;
+		gbc_lblChat.insets = new Insets(0, 0, 5, 5);
+		gbc_lblChat.gridx = 0;
+		gbc_lblChat.gridy = 0;
+		frame2.getContentPane().add(lblChat, gbc_lblChat);
+		
+		txtInputtext = new JTextField();
+		txtInputtext.setText("InputText");
+		GridBagConstraints gbc_txtInputtext = new GridBagConstraints();
+		gbc_txtInputtext.insets = new Insets(0, 0, 0, 5);
+		gbc_txtInputtext.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInputtext.gridx = 0;
+		gbc_txtInputtext.gridy = 11;
+		frame2.getContentPane().add(txtInputtext, gbc_txtInputtext);
+		txtInputtext.setColumns(10);
+		
+		JButton btnTalk = new JButton("Talk");
+		GridBagConstraints gbc_btnTalk = new GridBagConstraints();
+		gbc_btnTalk.gridx = 1;
+		gbc_btnTalk.gridy = 11;
+		frame2.getContentPane().add(btnTalk, gbc_btnTalk);
+	}
+	
+	
 	
 	/**
 	 * Launch the application.
