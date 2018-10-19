@@ -24,6 +24,7 @@ public class LoginWindow {
 	private JButton btnSubmit;
 	private String userVal=null;
 	private String passVal=null;
+	private JLabel lblLoginmessage;
 	
 
 	/**
@@ -64,12 +65,15 @@ public class LoginWindow {
 		        System.out.println(reply);
 		        
 		        if(reply.equals("y")) {
+		        	lblLoginmessage.setVisible(false);
 					//auth=true;
 					System.out.println("is true");
 					//startChat();
 					frame.setVisible(false);
 					ChatWindow chatwindow = new ChatWindow();
 					
+				}else {
+					lblLoginmessage.setVisible(true);
 				}
 		        //clickSubmit=true;
 		        System.out.println("end click");
@@ -100,9 +104,9 @@ public class LoginWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 262, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblUser = new JLabel("User:");
@@ -140,9 +144,22 @@ public class LoginWindow {
 		
 		btnSubmit = new JButton("Submit");
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSubmit.gridx = 3;
 		gbc_btnSubmit.gridy = 6;
 		frame.getContentPane().add(btnSubmit, gbc_btnSubmit);
+		
+		
+		/**
+		 * new label here
+		 */
+		lblLoginmessage = new JLabel("loginMessage");
+		GridBagConstraints gbc_lblLoginmessage = new GridBagConstraints();
+		gbc_lblLoginmessage.gridx = 3;
+		gbc_lblLoginmessage.gridy = 8;
+		lblLoginmessage.setText("Login unsuccessful");
+		frame.getContentPane().add(lblLoginmessage, gbc_lblLoginmessage);
+		lblLoginmessage.setVisible(false);
 	}
 
 	

@@ -53,6 +53,7 @@ public class ChatWindow {
 		
 		JLabel lblChat = new JLabel("Chat");
 		GridBagConstraints gbc_lblChat = new GridBagConstraints();
+		gbc_lblChat.gridheight = 11;
 		gbc_lblChat.insets = new Insets(0, 0, 5, 5);
 		gbc_lblChat.gridx = 0;
 		gbc_lblChat.gridy = 0;
