@@ -137,6 +137,7 @@ public class LoginWindow {
 			// TODO Auto-generated method stub
 			System.out.println("clicked ask btn");
 			word=txtWord.getText();
+			txtDef.setText("");
 			lblMessage.setVisible(false);
 							
 			try {						
@@ -192,11 +193,12 @@ public class LoginWindow {
 			System.out.println("clicked add btn");
 			word=txtWord.getText();
 			define=txtDef.getText();
+			lblMessage.setVisible(false);
 							
 			try {						
 
-				//remove, already have socket defined from login
-				//socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
+				//this has to be here or it doesn't work
+				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
 				
 		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				

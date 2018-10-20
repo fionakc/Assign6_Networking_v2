@@ -78,10 +78,12 @@ public class ServerThread extends Thread {
     	words.set(1,removeCapitals(words.get(1)));
     	//psgres=new PostgresJDBC();
     	if(psgres.addDefine(words.get(1), words.get(2))) {
-            return "y";        	
+    		System.out.println("added word and def");
+            return ("y");        	
         }
         else { 
-        	return "n";
+        	System.out.println("could not add");
+        	return ("n");
         
         } 
     } //end logincheck
