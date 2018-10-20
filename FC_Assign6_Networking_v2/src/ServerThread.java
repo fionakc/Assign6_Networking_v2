@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerThread extends Thread {
 
-	private static PostgresJDBC psgres;
+	//private static PostgresJDBC psgres;
 	
 	Socket socket;
     public ServerThread(Socket s)
@@ -47,9 +47,9 @@ public class ServerThread extends Thread {
     }
 	
     private static String checkLogin(List<String> words) {
-    	//PostgresJDBC psgres = new PostgresJDBC();   //should be able to move out so not create new object each time?
+    	PostgresJDBC psgres = new PostgresJDBC();   //should be able to move out so not create new object each time?
         
-    	psgres=new PostgresJDBC();
+    	//psgres=new PostgresJDBC();
     	if(psgres.logIn(words.get(1), words.get(2))) {
             return("y");
         	
@@ -61,7 +61,7 @@ public class ServerThread extends Thread {
     } //end logincheck
     
     private static String askDefine(List<String> words) {
-    	
+    	PostgresJDBC psgres = new PostgresJDBC();
     	String defined=psgres.defineWord(words.get(1));
     	if(defined!=null) {
     		System.out.println("found def");

@@ -142,7 +142,7 @@ public class LoginWindow {
 			try {						
 
 				//remove, already have socket defined from login
-				//socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
+				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
 				
 		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				
@@ -157,7 +157,7 @@ public class LoginWindow {
 		       
 		        //is replying with the answer
 		        String reply=input.readLine();  //returns y or n
-		        System.out.println("read line");
+		        System.out.println("read line");  //not hitting this line
 		        System.out.println(reply);
 		        
 		        txtDef.setText(reply);
@@ -207,7 +207,7 @@ public class LoginWindow {
 		frame.getContentPane().add(lblUser, gbc_lblUser);
 		
 		txtUser = new JTextField();
-		txtUser.setText("user");
+		txtUser.setText("Fiona");
 		GridBagConstraints gbc_txtUser = new GridBagConstraints();
 		gbc_txtUser.insets = new Insets(0, 0, 5, 0);
 		gbc_txtUser.gridx = 3;
@@ -223,7 +223,7 @@ public class LoginWindow {
 		frame.getContentPane().add(lblPassword, gbc_lblPassword);
 		
 		txtPassword = new JTextField();
-		txtPassword.setText("password");
+		txtPassword.setText("passf");
 		GridBagConstraints gbc_txtPassword = new GridBagConstraints();
 		gbc_txtPassword.insets = new Insets(0, 0, 5, 0);
 		gbc_txtPassword.fill = GridBagConstraints.HORIZONTAL;

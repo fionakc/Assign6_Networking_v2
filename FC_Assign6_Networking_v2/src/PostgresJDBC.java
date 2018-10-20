@@ -57,9 +57,12 @@ public class PostgresJDBC {
             String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/"+databaseUser+"_jdbc";
             connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
             Statement s = connection.createStatement();
-            ResultSet rs = s.executeQuery("select definition from crookfion_dictionary where word='"+word);
+            System.out.println("connected to db");
+            ResultSet rs = s.executeQuery("select definition from crookfion_dictionary where word='"+word+"'");
+            System.out.println("asked query");
             if(rs.next()) {
-                define=rs.toString();  
+                define=rs.getString("definition");  
+                System.out.println("defined: "+define);
             }
             rs.close();
             connection.close();
