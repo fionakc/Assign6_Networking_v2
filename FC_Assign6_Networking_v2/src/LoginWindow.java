@@ -160,8 +160,13 @@ public class LoginWindow {
 		        String reply=input.readLine();  //returns y or n
 		        System.out.println("read line");  //not hitting this line
 		        System.out.println(reply);
-		        
-		        txtDef.setText(reply);
+		        if(reply.equals("Sorry, I could not find this definition")) {
+		        	lblMessage.setText(reply);
+		        	lblMessage.setVisible(true);
+		        	
+		        } else {
+		        	txtDef.setText(reply);
+		        }
 		        //clickSubmit=true;
 		        System.out.println("end click");
 		        
@@ -191,7 +196,7 @@ public class LoginWindow {
 			try {						
 
 				//remove, already have socket defined from login
-				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
+				//socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
 				
 		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 				
