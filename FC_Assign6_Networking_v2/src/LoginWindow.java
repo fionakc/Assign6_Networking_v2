@@ -40,6 +40,19 @@ public class LoginWindow {
      */
     private JFrame frame2;
 	private JTextField txtInputtext;
+	
+	
+	/**
+	 * from dictionarywindow class
+	 */
+	private JFrame frame3;
+	private JTextField txtWord;
+	private String word=null;
+	private JTextField txtDef;
+	private String define=null;
+	private JButton btnAsk;
+	private JButton btnAddnew;
+	private JLabel lblMessage;
 
 	/**
 	 * Create the application.
@@ -47,6 +60,7 @@ public class LoginWindow {
 	public LoginWindow() {
 		initializeLoginWindow();
 		initializeChatWindow();
+		initializeDictWindow();
 		
 		//button commands from v1
 		btnSubmit.addActionListener(new ActionListener()
@@ -86,7 +100,8 @@ public class LoginWindow {
 					System.out.println("is true");
 					//startChat();
 					frame.setVisible(false);
-					frame2.setVisible(true);
+					//frame2.setVisible(true);
+					frame3.setVisible(true);
 					//ChatWindow chatwindow = new ChatWindow();
 					
 				}else {
@@ -95,19 +110,57 @@ public class LoginWindow {
 					 */
 					lblLoginmessage.setVisible(true);  
 					
-					
-					/**
-					 * temp dump this in here so can see second window
-					 */
-					
-					lblLoginmessage.setVisible(false);
-					//auth=true;
-					System.out.println("is true");
-					//startChat();
-					frame.setVisible(false);
-					ChatWindow chatwindow = new ChatWindow();
+										
 					
 				}
+		        //clickSubmit=true;
+		        System.out.println("end click");
+		        
+		      //get stuck here
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}					
+			
+		}
+		
+		
+		}); //end btnSubmit
+		
+		
+		//action commands for ask button
+		btnAsk.addActionListener(new ActionListener()
+		{
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println("clicked add btn");
+			word=txtWord.getText();
+			
+							
+			try {						
+
+				//remove, already have socket defined from login
+				//socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
+				
+		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				
+		        //this print is on the socket
+		        out.println("ask:"+word);			        
+		        
+		        System.out.println("sends ask to server");
+		        
+		        BufferedReader input =
+                        new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		        System.out.println("recieves ask y or n from server");
+		       
+		        //is replying with the answer
+		        String reply=input.readLine();  //returns y or n
+		        System.out.println("read line");
+		        System.out.println(reply);
+		        
+		        txtDef.setText(reply);
 		        //clickSubmit=true;
 		        System.out.println("end click");
 		        
@@ -127,6 +180,10 @@ public class LoginWindow {
 	
 	
 	
+
+	
+
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -232,9 +289,70 @@ public class LoginWindow {
 		gbc_btnTalk.gridx = 1;
 		gbc_btnTalk.gridy = 11;
 		frame2.getContentPane().add(btnTalk, gbc_btnTalk);
+		
+		frame2.setVisible(false);
 	}
 	
-	
+	private void initializeDictWindow() {
+		frame3 = new JFrame();
+		frame3.setBounds(100, 100, 576, 467);
+		frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		frame3.getContentPane().setLayout(gridBagLayout);
+		
+		txtWord = new JTextField();
+		txtWord.setText("word");
+		GridBagConstraints gbc_txtWord = new GridBagConstraints();
+		gbc_txtWord.gridwidth = 6;
+		gbc_txtWord.insets = new Insets(0, 0, 5, 5);
+		gbc_txtWord.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtWord.gridx = 2;
+		gbc_txtWord.gridy = 1;
+		frame3.getContentPane().add(txtWord, gbc_txtWord);
+		txtWord.setColumns(10);
+		
+		btnAsk = new JButton("Ask");
+		GridBagConstraints gbc_btnAsk = new GridBagConstraints();
+		gbc_btnAsk.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAsk.gridx = 10;
+		gbc_btnAsk.gridy = 1;
+		frame3.getContentPane().add(btnAsk, gbc_btnAsk);
+		
+		txtDef = new JTextField();
+		txtDef.setText("def");
+		GridBagConstraints gbc_txtDef = new GridBagConstraints();
+		gbc_txtDef.gridheight = 7;
+		gbc_txtDef.gridwidth = 6;
+		gbc_txtDef.insets = new Insets(0, 0, 5, 5);
+		gbc_txtDef.fill = GridBagConstraints.BOTH;
+		gbc_txtDef.gridx = 2;
+		gbc_txtDef.gridy = 3;
+		frame3.getContentPane().add(txtDef, gbc_txtDef);
+		txtDef.setColumns(10);
+		
+		btnAddnew = new JButton("AddNew");
+		GridBagConstraints gbc_btnAddnew = new GridBagConstraints();
+		gbc_btnAddnew.insets = new Insets(0, 0, 0, 5);
+		gbc_btnAddnew.gridx = 3;
+		gbc_btnAddnew.gridy = 11;
+		frame3.getContentPane().add(btnAddnew, gbc_btnAddnew);
+		
+		lblMessage = new JLabel("message");
+		GridBagConstraints gbc_lblMessage = new GridBagConstraints();
+		gbc_lblMessage.gridwidth = 6;
+		gbc_lblMessage.insets = new Insets(0, 0, 0, 5);
+		gbc_lblMessage.gridx = 2;
+		gbc_lblMessage.gridy = 13;
+		frame3.getContentPane().add(lblMessage, gbc_lblMessage);
+		lblMessage.setVisible(false);
+		
+		frame3.setVisible(false);
+	}
+
 	
 	/**
 	 * Launch the application.

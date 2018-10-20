@@ -15,8 +15,7 @@ import java.sql.*;
 public class PostgresJDBC {
 	
 	
-    public boolean logIn(String un, String pass)
-    {
+    public boolean logIn(String un, String pass){
         boolean res = true;
         try
         {
@@ -42,9 +41,39 @@ public class PostgresJDBC {
             res = false;
         }
         return res;
-    }
+    }  //end login
 
+    public String defineWord(String word) {
+    	String define=null;
+    	
+    	try
+        {
+        	//login to ecs database
+        	//need to use Ali's db, cos mine won't load properly
+            String databaseUser = "ahmed";
+            String databaseUserPass = "tmp123";           
+            Class.forName("org.postgresql.Driver");
+            Connection connection = null;            
+            String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/"+databaseUser+"_jdbc";
+            connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery("select definition from crookfion_dictionary where word='"+word);
+            if(rs.next()) {
+                define=rs.toString();  
+            }
+            rs.close();
+            connection.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("LogIn Error: "+e.toString());
+            e.printStackTrace();
+            //res = false;
+        }
+    	 	
+    	return define;
     
+    } //end defineWord
     
     
 }
