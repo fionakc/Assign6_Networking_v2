@@ -135,13 +135,14 @@ public class LoginWindow {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			System.out.println("clicked add btn");
+			System.out.println("clicked ask btn");
 			word=txtWord.getText();
-			
+			lblMessage.setVisible(false);
 							
 			try {						
 
 				//remove, already have socket defined from login
+				//nope, gotta leave this in
 				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
 				
 		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -175,6 +176,60 @@ public class LoginWindow {
 		
 		});
 		
+		
+		//action commands for add button
+		btnAddnew.addActionListener(new ActionListener()
+		{
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println("clicked add btn");
+			word=txtWord.getText();
+			define=txtDef.getText();
+							
+			try {						
+
+				//remove, already have socket defined from login
+				socket= new Socket(serverAddress, port);  //this needs to be inside the try/catch
+				
+		        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				
+		        //this print is on the socket
+		        out.println("add:"+word+":"+define);			        
+		        
+		        System.out.println("sends add to server");
+		        
+		        BufferedReader input =
+                        new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		        System.out.println("can recieve server");
+		       
+		        //is replying with the answer as a string
+		        String reply=input.readLine();  //returns y or n
+		        System.out.println("read line");  //not hitting this line
+		        System.out.println(reply);
+		        
+		        if(reply.equals("y")) {
+		        	lblMessage.setText("Definition added to Dictionary");
+		        	lblMessage.setVisible(true);
+		        	txtWord.setText("");
+		        	txtDef.setText("");
+		        } else {
+		        	lblMessage.setText("Sorry, could not add to Dictionary");
+		        	lblMessage.setVisible(true);
+		        }
+		        System.out.println("end click");
+		        
+		      //get stuck here
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}					
+			
+		}
+		
+		
+		});
 		
 	} //end LoginWindow
 	
@@ -305,7 +360,7 @@ public class LoginWindow {
 		frame3.getContentPane().setLayout(gridBagLayout);
 		
 		txtWord = new JTextField();
-		txtWord.setText("word");
+		txtWord.setText("");
 		GridBagConstraints gbc_txtWord = new GridBagConstraints();
 		gbc_txtWord.gridwidth = 6;
 		gbc_txtWord.insets = new Insets(0, 0, 5, 5);
@@ -323,7 +378,7 @@ public class LoginWindow {
 		frame3.getContentPane().add(btnAsk, gbc_btnAsk);
 		
 		txtDef = new JTextField();
-		txtDef.setText("def");
+		txtDef.setText("");
 		GridBagConstraints gbc_txtDef = new GridBagConstraints();
 		gbc_txtDef.gridheight = 7;
 		gbc_txtDef.gridwidth = 6;
@@ -341,7 +396,7 @@ public class LoginWindow {
 		gbc_btnAddnew.gridy = 11;
 		frame3.getContentPane().add(btnAddnew, gbc_btnAddnew);
 		
-		lblMessage = new JLabel("message");
+		lblMessage = new JLabel("");
 		GridBagConstraints gbc_lblMessage = new GridBagConstraints();
 		gbc_lblMessage.gridwidth = 6;
 		gbc_lblMessage.insets = new Insets(0, 0, 0, 5);

@@ -78,5 +78,41 @@ public class PostgresJDBC {
     
     } //end defineWord
     
+    public boolean addDefine(String word, String define) {
+    	boolean added=true;
+    	
+    	try
+        {
+        	//login to ecs database
+        	//need to use Ali's db, cos mine won't load properly
+            String databaseUser = "ahmed";
+            String databaseUserPass = "tmp123";           
+            Class.forName("org.postgresql.Driver");
+            Connection connection = null;            
+            String url = "jdbc:postgresql://db.ecs.vuw.ac.nz/"+databaseUser+"_jdbc";
+            connection = DriverManager.getConnection(url, databaseUser, databaseUserPass);
+            Statement s = connection.createStatement();
+            System.out.println("connected to db");
+            //insert into crookfion_dictionary (word, definition) values ('Cat','Fluffy and noisy');
+            //executeUpdate returns an int
+            int rs = s.executeUpdate("insert into crookfion_dictionary (word, definition) values ('"+word+"','"+define+"')");
+            System.out.println("rs is "+rs);
+//            if(! rs.next()) {
+//                added = false;
+//            }
+//            rs.close();
+            connection.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("LogIn Error: "+e.toString());
+            e.printStackTrace();
+            //res = false;
+        }
+    	 	
+    	return added;
+    
+    } //end defineWord
+    
     
 }

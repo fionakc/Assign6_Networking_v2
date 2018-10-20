@@ -33,9 +33,10 @@ public class ServerThread extends Thread {
                 if(words.get(0).equals("auth")) {
                 	out.println(checkLogin(words));
                 }
-                
-                if(words.get(0).equals("ask")) {
+                else if(words.get(0).equals("ask")) {
                 	out.println(askDefine(words));
+                } else if(words.get(0).equals("add")) {
+                	out.println(addDefine(words));
                 }
                 
             } 
@@ -70,6 +71,21 @@ public class ServerThread extends Thread {
     		return ("Sorry, I could not find this definition");
     	}
     }
+    
+    private static String addDefine(List<String> words) {
+    	PostgresJDBC psgres = new PostgresJDBC();   //should be able to move out so not create new object each time?
+        
+    	//psgres=new PostgresJDBC();
+    	if(psgres.addDefine(words.get(1), words.get(2))) {
+            return "y";
+        	
+        }
+        else { 
+        	return "n";
+        
+        } 
+    } //end logincheck
+    
  
   //break string into tokens, based on separator, returns list of tokens
   	private  static List<String> tokenize( String phrase, char separator ){
